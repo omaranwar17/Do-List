@@ -3,3 +3,10 @@
   text-decoration: line-through;
   color: #999;
 }
+
+
+.completed-task {
+  text-decoration: line-through;
+  color: #9ca3af;
+  opacity: 0.7;
+}
