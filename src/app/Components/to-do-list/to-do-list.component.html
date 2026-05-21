@@ -1,96 +1,107 @@
-<div class=" container mx-auto bg-gray-50  shadow-lg rounded-md mt-20  w-2/3">
-  <div class=" p-8">
+<div class="min-h-screen bg-gray-100 py-10 px-4">
 
+  <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10">
 
-  <h1  class=" text-2xl  px-20 py-2 shadow-lg rounded-md text-center bg-gray-800/90 text-white">to do lest</h1>
+    <!-- Title -->
+    <h1
+      class="text-3xl md:text-4xl font-bold text-center text-white bg-gray-800 py-4 rounded-xl shadow-md">
+      To Do List
+    </h1>
 
-  <div class=" container mx-auto m-8 flex gap-4 items-center justify-between">
+    <!-- Input Section -->
+    <div class="mt-8 flex flex-col md:flex-row gap-4 items-center">
 
-    <div class=" w-10/12 m-8">
-      <label class=" text-lg text-gray-950 p-2" for=""> to do list</label>
-      <input [(ngModel)]="nweTask"  type="text "   placeholder=" to do list" class="w-full text-black border focus:border-spacing-2 focus:border-gray-100  bg-transparent border-spacing-2 border-gray-500   py-2 mx-auto block bg-gray-400 focus:bg-white">
+      <div class="w-full">
+        <label class="block text-lg font-medium text-gray-700 mb-2">
+          Add New Task
+        </label>
+
+        <input
+  [(ngModel)]="newTask"
+  type="text"
+  placeholder="Enter your task..."
+  class="w-full px-4 py-3 rounded-xl border border-gray-300
+  focus:outline-none focus:ring-2 focus:ring-sky-400
+  transition-all duration-300">
+      </div>
+
+      <div class="w-full md:w-40 mt-0 md:mt-8">
+        <button
+          (click)="addTask()"
+          class="w-full bg-sky-500 hover:bg-sky-600
+          text-white font-semibold py-3 rounded-xl
+          transition-all duration-300 shadow-md">
+          Add
+        </button>
+      </div>
+
     </div>
-    <div class=" mt-8 w-2/12">
-      <button (click)="addTask()"  class=" bg-sky-500 w-full px-4 py-2 rounded-md text-white hover:bg-transparent border hover:border-spacing-2 hover:text-gray-950 hover:border-sky-400"> add</button>
+
+    <!-- Empty State -->
+    <div *ngIf="toDoItem.length === 0"
+      class="text-center py-10 text-gray-400 text-lg">
+      No Tasks Yet 🚀
     </div>
 
+    <!-- Table -->
+    <div *ngIf="toDoItem.length > 0"
+      class="mt-8 overflow-x-auto rounded-xl border border-gray-200">
 
+      <table class="w-full text-sm text-left">
 
-  </div>
-
-
-<!-- <div class="">
-  @for (user of toDoItem; track user.id) {
-    <li>
-      {{user.task}}
-    </li>
-  }
-</div> -->
-
-
-
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-md text-white uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="bg-gray-800 text-white">
           <tr>
-
-              <th scope="col" class="px-6 py-3">
-                  to do Task
-              </th>
-              <th scope="col" class="p-4">
-complated
-            </th>
-
-
-
-              <th scope="col" class="px-6 py-3">
-                  delete
-              </th>
+            <th class="px-6 py-4">Task</th>
+            <th class="px-6 py-4 text-center">Completed</th>
+            <th class="px-6 py-4 text-center">Delete</th>
           </tr>
-      </thead>
-
-
+        </thead>
 
         <tbody>
-          <!-- @for (todo of toDoItem; track let i = todo.id)  { -->
 
+          <tr
+            *ngFor="let todo of toDoItem; let i = index"
+            class="border-b hover:bg-gray-50 transition-all duration-200">
 
-
-          <tr *ngFor="let todo of  toDoItem; let  i = index"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
-            <th [ngClass]="{'text':todo.coplated}" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {{todo.task}}
-            </th>
-
-             <td class="w-4 p-4">
-                <div class="flex items-center">
-                    <input (change)="todoUbdet(i)" id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <!-- <label for="checkbox-table-search-1" class="sr-only">checkbox</label> -->
-                </div>
+            <!-- Task -->
+            <td
+              [ngClass]="{'completed-task': todo.coplated}"
+              class="px-6 py-4 font-medium text-gray-700">
+              {{ todo.task }}
             </td>
 
+            <!-- Checkbox -->
+            <td class="px-6 py-4 text-center">
 
+              <input
+                [checked]="todo.coplated"
+                (change)="todoUbdet(i)"
+                type="checkbox"
+                class="w-5 h-5 accent-sky-500 cursor-pointer">
 
-            <td class="px-6 py-4">
-              <button (click)="delete(todo.id)" class=" bg-red-500 text-white px-4 py-2 rounded-lg">delete</button>
-          </td>
+            </td>
 
+            <!-- Delete -->
+            <td class="px-6 py-4 text-center">
 
-        </tr>
+              <button
+                (click)="delete(todo.id)"
+                class="bg-red-500 hover:bg-red-600
+                text-white px-4 py-2 rounded-lg
+                transition-all duration-300 shadow-sm">
+                Delete
+              </button>
 
+            </td>
 
+          </tr>
 
+        </tbody>
 
-      <!-- } -->
-      </tbody>
+      </table>
 
+    </div>
 
-
-  </table>
-
-
-
-</div>
-
+  </div>
 
 </div>
